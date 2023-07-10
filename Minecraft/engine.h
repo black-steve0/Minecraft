@@ -313,7 +313,7 @@ namespace stv {
 	class matrix3d {
 	public:
 		std::vector<std::vector<std::vector<int>>> data;
-
+		std::vector<stv::Vector3> renderOrder;
 	public:
 		matrix3d(int p_x = 1, int p_y = 1, int p_z = 1, int def = 0) {
 
@@ -337,7 +337,14 @@ namespace stv {
 			return os;
 		}
 
+		void updateOrder() {
 
+		}
+
+		std::vector<stv::Vector3> getOrder() {
+			return renderOrder;
+		}
+		
 	};
 
 	void Write(Text text) {
