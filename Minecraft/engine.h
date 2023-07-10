@@ -336,6 +336,8 @@ namespace stv {
 			for (const std::vector<std::vector<int>>& element1 : matrix.data) { for (const std::vector<int>& element2 : element1) { for (const int& element3 : element2) { os << element3 << " "; } os << std::endl; } os << std::endl; }
 			return os;
 		}
+
+
 	};
 
 	void Write(Text text) {
