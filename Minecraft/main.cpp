@@ -1,13 +1,16 @@
 #include "engine.h"
+#include "chunks.h"
 
 using namespace stv;
 using namespace geo;
 using namespace gme;
 
-Vector3 rot(-25,-25,0);
+void startup() {
+	createChunk();
+}
 
 void gameloop() {
-	cube(Vector3(0, 0, 0), Vector3(500, 500, 500), rgb(0,0,0), rot);
+	loadChunk();
 }
 
 void renderloop() {
@@ -31,6 +34,8 @@ int main(int argc, char* argv[]) {
 
 	SDL_Event event = SDL_Event();
 
+	startup();
+
 	while (running) {
 		
 		while (SDL_PollEvent(&event)) {
@@ -42,12 +47,12 @@ int main(int argc, char* argv[]) {
 			case SDL_KEYDOWN:
 			{
 				switch (event.key.keysym.sym) {
-				case SDLK_e: rot.z += 5; break;
-				case SDLK_q: rot.z -= 5; break;
-				case SDLK_w: rot.y += 5; break;
-				case SDLK_s: rot.y -= 5; break;
-				case SDLK_a: rot.x += 5; break;
-				case SDLK_d: rot.x -= 5; break;
+				case SDLK_e: prespective.z -= 5; break;
+				case SDLK_q: prespective.z += 5; break;
+				case SDLK_w: prespective.y -= 5; break;
+				case SDLK_s: prespective.y += 5; break;
+				case SDLK_a: prespective.x -= 5; break;
+				case SDLK_d: prespective.x += 5; break;
 
 				default: break;
 				}

@@ -311,7 +311,7 @@ namespace stv {
 	};
 
 	class matrix3d {
-	private:
+	public:
 		std::vector<std::vector<std::vector<int>>> data;
 
 	public:
@@ -568,6 +568,8 @@ namespace geo {
 }
 
 namespace gme {
+
+	std::vector<stv::matrix3d> chunks;
 
 	class Player {
 	public:
