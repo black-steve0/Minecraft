@@ -4,11 +4,10 @@ using namespace stv;
 using namespace geo;
 using namespace gme;
 
-Vector3 rot(0,-25,0);
+Vector3 rot(-25,-25,0);
 
 void gameloop() {
-	rot.x++;
-	cube(Vector3(0, 0, 0), Vector3(500, 500, 500), rgb(0, 0, 0), rot);
+	cube(Vector3(0, 0, 0), Vector3(500, 500, 500), rgb(0,0,0), rot);
 }
 
 void renderloop() {
@@ -43,8 +42,12 @@ int main(int argc, char* argv[]) {
 			case SDL_KEYDOWN:
 			{
 				switch (event.key.keysym.sym) {
-				case SDLK_e: rot.z += 15; break;
-				case SDLK_q: rot.z -= 15; break;
+				case SDLK_e: rot.z += 5; break;
+				case SDLK_q: rot.z -= 5; break;
+				case SDLK_w: rot.y += 5; break;
+				case SDLK_s: rot.y -= 5; break;
+				case SDLK_a: rot.x += 5; break;
+				case SDLK_d: rot.x -= 5; break;
 
 				default: break;
 				}
