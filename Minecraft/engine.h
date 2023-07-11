@@ -77,7 +77,7 @@ namespace stv {
 
 		friend std::ostream& operator << (std::ostream& os, const Vector3 vector3)
 		{
-			os << "(" << vector3.x << ", " << vector3.y << "," << vector3.z << ")";
+			os << "(" << vector3.x << ", " << vector3.y << ", " << vector3.z << ")";
 			return os;
 		};
 
@@ -337,13 +337,9 @@ namespace stv {
 			return os;
 		}
 
-		void updateOrder() {
+		void updateOrder(int chunkid, Vector3 playerPosition);
 
-		}
-
-		std::vector<stv::Vector3> getOrder() {
-			return renderOrder;
-		}
+		std::vector<stv::Vector3> getOrder(int chunkid);
 		
 	};
 
@@ -530,7 +526,7 @@ namespace geo {
 		return position;
 	}
 
-	void cube(stv::Vector3 position, stv::Vector3 size, stv::rgb color, stv::Vector3 rotation = stv::Vector3(90, 90, 90), stv::Vector3 pos = stv::Vector3(0, 0, 0)) {
+	void cube(stv::Vector3 position, stv::Vector3 size, stv::Vector3 rotation = stv::Vector3(90, 90, 90), stv::Vector3 pos = stv::Vector3(0, 0, 0)) {
 
 		position -= size / 2;
 
@@ -584,16 +580,16 @@ namespace gme {
 	public:
 		SDL_Texture* texture = NULL;
 
-		stv::Vector2 position = stv::Vector2(0, 0);
-		stv::Vector2 size = stv::Vector2(0, 0);
+		stv::Vector3 position = stv::Vector3(0, 0, 0);
+		stv::Vector3 size = stv::Vector3(0, 0, 0);
 
 		float health = 100;
 		float speed = 10;
 		float mass = 10;
-		stv::Vector2 velocity;
+		stv::Vector3 velocity = stv::Vector3(0,0,0);
 		float jump = 10;
 
-		Player(SDL_Texture* p_texture, stv::Vector2 p_position, stv::Vector2 p_size, float p_health = 100, float p_speed = 10, float p_mass = 10, stv::Vector2 p_velocity = stv::Vector2(0, 0), float p_jump = 10) {
+		Player(SDL_Texture* p_texture, stv::Vector3 p_position, stv::Vector3 p_size, float p_health = 100, float p_speed = 10, float p_mass = 10, stv::Vector3 p_velocity = stv::Vector3(0, 0, 0), float p_jump = 10) {
 			texture = p_texture;
 
 			position = p_position;
@@ -606,7 +602,7 @@ namespace gme {
 			jump = p_jump;
 		}
 
-		Player(stv::Vector2 p_position, stv::Vector2 p_size, float p_health = 100, float p_speed = 10, float p_mass = 10, stv::Vector2 p_velocity = stv::Vector2(0, 0), float p_jump = 10) {
+		Player(stv::Vector3 p_position, stv::Vector3 p_size, float p_health = 100, float p_speed = 10, float p_mass = 10, stv::Vector3 p_velocity = stv::Vector3(0, 0, 0), float p_jump = 10) {
 			position = p_position;
 			size = p_size;
 
@@ -619,15 +615,7 @@ namespace gme {
 
 		Player() {}
 
-		void draw() {
-
-		}
-
-		void fastDraw(stv::rgb color) {
-			geo::rectangle(position, size, color);
-		}
-
-	};
+	} player;
 
 	void doGravity(Player player, std::vector<stv::object> grounds) {
 		float y = player.position.y + player.size.y / 2;

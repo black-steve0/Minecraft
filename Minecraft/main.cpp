@@ -1,4 +1,3 @@
-#include "engine.h"
 #include "chunks.h"
 
 using namespace stv;
@@ -7,10 +6,16 @@ using namespace gme;
 
 void startup() {
 	createChunk();
+	for (int i = 0; i < chunks.size(); i++) {
+		chunks[i].updateOrder(0, player.position);
+	}
 }
 
 void gameloop() {
 	loadChunk();
+	for (int i = 0; i < chunks.size(); i++) {
+		chunks[i].updateOrder(0, player.position);
+	}
 }
 
 void renderloop() {
@@ -22,6 +27,8 @@ void renderloop() {
 
 	/* solid background color */
 	SDL_SetRenderDrawColor(ren, 0, 0, 0, 255);
+
+
 }
 
 int main(int argc, char* argv[]) {
