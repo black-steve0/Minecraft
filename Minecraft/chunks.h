@@ -8,7 +8,7 @@ void stv::matrix3d::updateOrder(int chunkid, Vector3 playerPosition) {
 	std::vector<stv::Vector3> chunk{};
 	std::vector<float> distances{};
 
-	for (int i = 0; i < 3; i++) for (int j = 0; j < 16; j++) for (int k = 0; k < 16; k++) if (gme::chunks[chunkid][i][j][k] == 1) {
+	for (int i = 0; i < 16; i++) for (int j = 0; j < 3; j++) for (int k = 0; k < 16; k++) if (gme::chunks[chunkid].data[i][j][k] == 1) {
 		chunk.push_back(Vector3(i, j, k));
 		distances.push_back((float)(abs(sqrt(pow(i, 2) + pow(j, 2) + pow(k, 2)) - sqrt(pow(playerPosition.x, 2) + pow(playerPosition.y, 2) + pow(playerPosition.z, 2)))));
 	}
@@ -37,7 +37,7 @@ namespace gme {
 	void createChunk(stv::Vector3 position = stv::Vector3(0,0,0)) {
 		stv::matrix3d chunk(16, 16, 16);
 
-		for (int i = 0; i < 3; i++) for (int j = 0; j < 16; j++) for (int k = 0; k < 16; k++)
+		for (int i = 0; i < 15; i++) for (int j = 0; j < 3; j++) for (int k = 0; k < 16; k++)
 			chunk.data[i][j][k] = 1;
 
 		chunks.push_back(chunk);
@@ -47,7 +47,7 @@ namespace gme {
 		int size = 50;
 		std::vector<stv::Vector3> chunk = getOrder(chunkid);
 
-		for (auto blockPos : chunk)
+		for (const stv::Vector3& blockPos : chunk)
 			geo::cube(stv::Vector3(blockPos.z * size, blockPos.y * size, blockPos.x * size)-7.5*50, stv::Vector3(size, size, size), prespective);
 		
 	}

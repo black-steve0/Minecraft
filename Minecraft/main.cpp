@@ -1,4 +1,4 @@
-#include "chunks.h"
+#include "SSDLmain.h"
 
 using namespace stv;
 using namespace geo;
@@ -6,16 +6,14 @@ using namespace gme;
 
 void startup() {
 	createChunk();
-	for (int i = 0; i < chunks.size(); i++) {
+	for (int i = 0; i < chunks.size(); i++)
 		chunks[i].updateOrder(0, Vector3(15, 15, 15));
-	}
 }
 
 void gameloop() {
 	loadChunk();
-	for (int i = 0; i < chunks.size(); i++) {
-		chunks[i].updateOrder(0, Vector3(15, 0, 15));
-	}
+	for (int i = 0; i < chunks.size(); i++)
+		chunks[i].updateOrder(NULL, Vector3(15, 0, 15));
 }
 
 void renderloop() {
@@ -53,12 +51,12 @@ int main(int argc, char* argv[]) {
 			case SDL_KEYDOWN:
 			{
 				switch (event.key.keysym.sym) {
-				case SDLK_e: prespective.z -= 1; break;
-				case SDLK_q: prespective.z += 1; break;
-				case SDLK_w: prespective.y -= 1; break;
-				case SDLK_s: prespective.y += 1; break;
-				case SDLK_a: prespective.x -= 1; break;
-				case SDLK_d: prespective.x += 1; break;
+				case SDLK_e: prespective.z -= 5; break;
+				case SDLK_q: prespective.z += 5; break;
+				case SDLK_w: prespective.y -= 5; break;
+				case SDLK_s: prespective.y += 5; break;
+				case SDLK_a: prespective.x -= 5; break;
+				case SDLK_d: prespective.x += 5; break;
 
 				default: break;
 				}

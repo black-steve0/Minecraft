@@ -2,42 +2,8 @@
 
 #include <iostream>
 #include <string>
-#include <vector>
-#include <SDL.h>
-#include <SDL_ttf.h>
-#include <windows.h>
-#include <random>
-#include <chrono>
+#include "constants.h"
  
-#define WHITE	stv::rgb(255,255,255)
-#define RED		stv::rgb(255,0,0)
-#define BLUE	stv::rgb(0,0,255)
-#define GREEN	stv::rgb(0,255,0)
-#define YELLOW  stv::rgb(255,255,0)
-#define PURPLE  stv::rgb(255,0,255)
-
-#define UC (unsigned char)
-#define INT (int)
-#define FLOAT (float)
-#define DOUBLE (double)
-#define BOOL (bool)
-#define CHAR (char)
-#define CCP const char*
-#define VINT std::vector<int>
-
-#define RAD / 57.2957795
-#define second * 1000
-#define default_texture SDL_Texture* texture = IMG_LoadTexture(ren, "FILE");
-#define Arial "C:\\Users\\User\\source\\repos\\Minecraft\\Minecraft\\fonts\\arial.ttf"
-
-#define AIR			0
-#define GRASS		1
-#define NOTHING		15
-
-static const int screen_width = 1920;
-static const int screen_height = 1010;
-static SDL_Window* win = SDL_CreateWindow("Minecraft", 0, 30, screen_width, screen_height, SDL_WINDOW_SHOWN);
-static SDL_Renderer* ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
 
 namespace stv {
 
@@ -328,10 +294,6 @@ namespace stv {
 			}
 		}
 
-		std::vector<std::vector<int>> operator [] (int n) {
-			if (n <= data.size()) return data[n];
-		}
-
 		friend std::ostream& operator << (std::ostream& os, const matrix3d matrix) {
 			for (const std::vector<std::vector<int>>& element1 : matrix.data) { for (const std::vector<int>& element2 : element1) { for (const int& element3 : element2) { os << element3 << " "; } os << std::endl; } os << std::endl; }
 			return os;
@@ -461,28 +423,14 @@ namespace geo {
 	void triangle(std::vector<stv::Vector3> points, stv::rgb color) {
 		
 		std::vector<SDL_Vertex> verts;
+		verts.reserve(3);
 
 		for (auto& point : points) {
 			point.x = point.x + screen_width / 2;
 			point.y = screen_height / 2 - point.y;
-			verts.push_back({ point.SDLvector(), color.SDLcolor(), SDL_FPoint{ 0 } });
+			verts.emplace_back(SDL_Vertex{ point.SDLvector(), color.SDLcolor(), SDL_FPoint{ 0 } });
 		}
 		SDL_RenderGeometry(ren, nullptr, verts.data(), verts.size(), nullptr, 0);
-	}
-
-	void triangle2(stv::Vector2 pos, stv::Vector2 A, stv::Vector2 B, stv::Vector2 C, stv::rgb color, int rotation = 90) {
-
-		A -= B / 2;
-
-		stv::Vector2 c1(A.x * cos(rotation RAD) - A.y * sin(rotation RAD), A.x * sin(rotation RAD) + A.y * cos(rotation RAD));
-		stv::Vector2 c2((A.x + B.x) * cos(rotation RAD) - A.y * sin(rotation RAD), (A.x + B.x) * sin(rotation RAD) + A.y * cos(rotation RAD));
-		stv::Vector2 c3(A.x * cos(rotation RAD) - (A.y + C.y) * sin(rotation RAD), A.x * sin(rotation RAD) + (A.y + C.y) * cos(rotation RAD));
-
-		c1 += pos;
-		c2 += pos;
-		c3 += pos;
-
-		triangle(std::vector<stv::Vector2>{c1, c2, c3}, color);
 	}
 
 	void rectangle(stv::Vector2 position, stv::Vector2 size, stv::rgb color, double rotation = 90, stv::Vector2 pos = stv::Vector2(0, 0)) {
